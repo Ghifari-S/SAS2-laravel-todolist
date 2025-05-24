@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"
-            style="font-family: 'Courier New', Courier, monospace; color: #00ffd0;">
+            style="font-family: 'Courier New', Courier, monospace; color:#fff;;">
             Add Todo
         </h2>
     </x-slot>
@@ -44,14 +44,6 @@
             color: white;
             font-family: 'Courier New', Courier, monospace !important;
             resize: vertical;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #00ffd0;
-            box-shadow: 0 0 5px #00ffd0;
-            background-color: #222 !important;
         }
 
         .mt-6 {

@@ -7,14 +7,15 @@
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-              background-color: #1e1e2f;
+            background-color: #1e1e2f;
             color: #fff;
             padding: 20px;
             max-width: 700px;
             margin: auto;
         }
 
-        h1, header h2 {
+        h1,
+        header h2 {
             text-align: center;
             color: #ffffff;
             margin-bottom: 20px;
@@ -172,6 +173,20 @@
             font-size: 13px;
             font-family: 'Courier New', Courier, monospace;
         }
+
+        select {
+            background-color: #444;
+            color: white;
+            border: 1px solid #666;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        label {
+            font-family: 'Courier New', Courier, monospace;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -187,7 +202,7 @@
             <div class="alert-success">{{ session('success') }}</div>
         @endif --}}
 
-        <form action="{{ route('todos.store') }}" method="POST" class="todo-form">
+        {{-- <form action="{{ route('todos.store') }}" method="POST" class="todo-form">
             @csrf
             <input type="text" name="title" placeholder="Judul Todo" value="{{ old('title') }}">
             @error('title')
@@ -200,6 +215,17 @@
             @enderror
 
             <button type="submit">Tambah Todo</button>
+        </form> --}}
+        <a href="{{ route('todos.create') }}" class="btn-primary" style="margin-bottom: 20px; display:inline-block;">
+            + Add Todo
+        </a>
+        <form method="GET" action="{{ route('todos.index') }}" style="margin-bottom: 20px;">
+            <label for="filter">Filter: </label>
+            <select name="filter" id="filter" onchange="this.form.submit()" style="margin-left: 10px;">
+                <option value="">All</option>
+                <option value="pending" {{ request('filter') == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="done" {{ request('filter') == 'done' ? 'selected' : '' }}>Done</option>
+            </select>
         </form>
 
         <ul class="todo-list">
@@ -220,10 +246,10 @@
                     </form>
 
                     <form action="{{ route('todos.destroy', $todo->id) }}" method="POST"
-                        onsubmit="return confirm('Yakin mau hapus?');" class="inline-form">
+                        onsubmit="return confirm('Are You Sure?');" class="inline-form">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Hapus</button>
+                        <button type="submit">Delete</button>
                     </form>
                 </li>
             @endforeach
@@ -232,18 +258,19 @@
 
 </body>
 
-@if(session('success'))
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    Swal.fire({
-      icon: 'success',
-      title: 'Sukses!',
-      text: "{{ session('success') }}",
-      timer: 2000,
-      showConfirmButton: false
-    });
-  });
-</script>
+@if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        });
+    </script>
 @endif
 
 </html>

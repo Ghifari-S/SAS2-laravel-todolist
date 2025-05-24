@@ -11,11 +11,23 @@ class TodoController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $todos = Todo::all(); // ambil semua todo tanpa filter user
-        return view('todos.index', compact('todos'));
+        $filter = $request->query('filter');
+
+        $todos = Todo::query();
+
+        if ($filter === 'pending') {
+            $todos->where('completed', false);
+        } elseif ($filter === 'done') {
+            $todos->where('completed', true);
+        }
+
+        return view('todos.index', [
+            'todos' => $todos->latest()->get()
+        ]);
     }
+
 
     public function edit(Todo $todo)
     {
